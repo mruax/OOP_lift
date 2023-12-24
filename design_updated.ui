@@ -37,7 +37,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="adress1">
+        <widget class="QLabel" name="address1">
          <property name="text">
           <string>Адрес</string>
          </property>
@@ -271,7 +271,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="adress2">
+        <widget class="QLabel" name="address2">
          <property name="text">
           <string>Адрес</string>
          </property>
@@ -505,7 +505,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="adress3">
+        <widget class="QLabel" name="address3">
          <property name="text">
           <string>Адрес</string>
          </property>
@@ -739,7 +739,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="adress4">
+        <widget class="QLabel" name="address4">
          <property name="text">
           <string>Адрес</string>
          </property>
