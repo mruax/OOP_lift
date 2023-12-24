@@ -41,37 +41,40 @@ class MainWindow(QMainWindow):
             lift_button = getattr(self.ui, f"lift_{i}")
             lift_button.clicked.connect(lambda _, id=i: self.open_lift_window(id))
 
-    @asyncSlot()
+    @asyncSlot()  # это все 64 таски, цикл с loop
     async def elevators_simulation(self):
         tasks = []
-        for i in range(1, 64 + 1):
+        for id in range(1, 64 + 1):
             # tasks.append(asyncio.create_task(self.controller))
-            # tasks.append(asyncio.create_task(self.lift_simulation(...)))
+            tasks.append(asyncio.create_task(self.lift_simulation(elevator_id=id)))
             # обращаемся через контроллер
-            tasks.append(asyncio.create_task(self.controller.elevators[i - 1].simulate_queue))
+            # tasks.append(asyncio.create_task(self.controller.elevators[i - 1].simulate_queue))
 
         self.is_running = True
         while self.is_running:
             a = randint(1, 100)
+            print(a)
             await asyncio.sleep(1.0, self.loop)
 
         for task in tasks:
             task.cancel()
 
-    @asyncSlot()
+    # @asyncSlot() - это отдельная таска, свой цикл без общего loop
     async def lift_simulation(self, elevator_id):
+        elevator = self.controller.elevators[elevator_id - 1]
+        house = self.houses[elevator_id - 1]
         while True:
-            elevator = self.controller.elevators[elevator_id - 1]
-            house = self.houses[elevator_id - 1]
             a = randint(1, 100)
             if a <= 20:  # 7% на появление вызова
-                floor = randint(1, house.floors_amount)
+                floor = randint(1, house.floors_amount) - 1
                 # для простоты сделаем так, чтобы человек вызывал лифт на этаже только с одной стороны
                 if not(house.left_calls[floor] and house.right_calls[floor]):
                     if a % 2 == 1:
                         house.left_calls[floor] = True
                     else:
                         house.right_calls[floor] = True
+                    self.elevator_views[elevator_id - 1].update_checkboxes()
+            self.elevator_views[elevator_id - 1].ui.label.setText(str(a))
             await asyncio.sleep(1.0)
 
     def simulation_status(self):
@@ -216,20 +219,20 @@ class ElevatorView(QWidget):
         self.ui.change_lift_status_btn.clicked.connect(self.change_elevator_status)
         self.ui.change_door_status_btn.clicked.connect(self.change_door_status)
 
-        # self.ui.left_floor_checkbox1.stateChanged.connect(self.elevator_call(floor=1))
-        # self.ui.left_floor_checkbox2.stateChanged.connect(self.elevator_call(floor=2))
-        # self.ui.left_floor_checkbox3.stateChanged.connect(self.elevator_call(floor=3))
-        # self.ui.right_floor_checkbox1.stateChanged.connect(self.elevator_call(floor=1))
-        # self.ui.right_floor_checkbox2.stateChanged.connect(self.elevator_call(floor=2))
-        # self.ui.right_floor_checkbox3.stateChanged.connect(self.elevator_call(floor=3))
+        # self.ui.left_floor_checkbox1.stateChanged.connect(self.elevator_call)
+        # self.ui.left_floor_checkbox2.stateChanged.connect(self.elevator_call)
+        # self.ui.left_floor_checkbox3.stateChanged.connect(self.elevator_call)
+        # self.ui.right_floor_checkbox1.stateChanged.connect(self.elevator_call)
+        # self.ui.right_floor_checkbox2.stateChanged.connect(self.elevator_call)
+        # self.ui.right_floor_checkbox3.stateChanged.connect(self.elevator_call)
         # if floors == 4:
-        #     self.ui.left_floor_checkbox4.stateChanged.connect(self.elevator_call(floor=4))
-        #     self.ui.right_floor_checkbox4.stateChanged.connect(self.elevator_call(floor=4))
+        #     self.ui.left_floor_checkbox4.stateChanged.connect(self.elevator_call)
+        #     self.ui.right_floor_checkbox4.stateChanged.connect(self.elevator_call)
         # elif floors == 5:
-        #     self.ui.left_floor_checkbox4.stateChanged.connect(self.elevator_call(floor=4))
-        #     self.ui.right_floor_checkbox4.stateChanged.connect(self.elevator_call(floor=4))
-        #     self.ui.left_floor_checkbox5.stateChanged.connect(self.elevator_call(floor=5))
-        #     self.ui.right_floor_checkbox5.stateChanged.connect(self.elevator_call(floor=5))
+        #     self.ui.left_floor_checkbox4.stateChanged.connect(self.elevator_call)
+        #     self.ui.right_floor_checkbox4.stateChanged.connect(self.elevator_call)
+        #     self.ui.left_floor_checkbox5.stateChanged.connect(self.elevator_call)
+        #     self.ui.right_floor_checkbox5.stateChanged.connect(self.elevator_call)
 
     def initialize_ui(self):
         elevator = self.controller.elevators[self.elevator_id - 1]
@@ -250,7 +253,9 @@ class ElevatorView(QWidget):
         while not(b.empty()):
             queue.append(b.get())
         self.ui.lift_queue_label.setText(f"Очередь вызовов {str(queue)}")
+        self.update_checkboxes()
 
+    def update_checkboxes(self):
         for floor, call in enumerate(self.houses[self.elevator_id - 1].left_calls):
             checkbox = getattr(self.ui, f"left_floor_checkbox{floor + 1}")
             checkbox.setChecked(call)
@@ -272,8 +277,8 @@ class ElevatorView(QWidget):
         else:
             self.ui.lift_door_status_label.setText(f"Двери закрыты")
 
-    def elevator_call(self, floor):
-        pass
+    # def elevator_call(self):
+    #     pass  # не изменяем флаг
         # self.setGeometry(100, 100, 300, 200)
 
         # self.call_button = QPushButton("Call Elevator", self)
