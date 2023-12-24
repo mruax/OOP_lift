@@ -11,8 +11,9 @@ import sys
 
 from generated_ui import Ui_MainWindow
 from generated_3floor_lift import Ui_Form as Ui_Form_3floors
-from generated_4floor_lift import Ui_Form as Ui_Form_4floors
-from generated_5floor_lift import Ui_Form as Ui_Form_5floors
+
+# from generated_4floor_lift import Ui_Form as Ui_Form_4floors
+# from generated_5floor_lift import Ui_Form as Ui_Form_5floors
 
 
 class MainWindow(QMainWindow):
@@ -35,8 +36,6 @@ class MainWindow(QMainWindow):
         self.lift_window = None
         self.is_running = False
 
-        # self.ui.label.adjustSize()
-
         self.ui.simultation_btn.clicked.connect(self.simulation_status)  # кнопка статуса симуляции
         for i in range(1, 65):  # кнопки вызова отдельного окна лифта
             lift_button = getattr(self.ui, f"lift_{i}")
@@ -46,21 +45,18 @@ class MainWindow(QMainWindow):
     async def elevators_simulation(self):
         tasks = []
         for id in range(1, 64 + 1):
-            # tasks.append(asyncio.create_task(self.controller))
             tasks.append(asyncio.create_task(self.lift_simulation(elevator_id=id)))
             # обращаемся через контроллер
             tasks.append(asyncio.create_task(self.controller.elevators[id - 1].simulate_queue()))
 
         self.is_running = True
         while self.is_running:
-            a = randint(1, 100)
-            print(a)
             await asyncio.sleep(1.0, self.loop)
 
         for task in tasks:
             task.cancel()
 
-    # @asyncSlot() - это отдельная таска, свой цикл без общего loop
+    # это отдельная таска, свой цикл без общего loop
     async def lift_simulation(self, elevator_id):
         elevator = self.controller.elevators[elevator_id - 1]
         house = self.houses[elevator_id - 1]
@@ -77,8 +73,6 @@ class MainWindow(QMainWindow):
                     self.elevator_views[elevator_id - 1].update_checkboxes()
 
                     elevator.floors_queue.put(floor + 1)
-
-            # self.elevator_views[elevator_id - 1].ui.label.setText(str(a))  # ===============================
             await asyncio.sleep(1.0)
 
     def simulation_status(self):
@@ -104,7 +98,7 @@ class MainWindow(QMainWindow):
             live.setText(f"Жильцов - {self.houses[i - 1].live}")
 
     def closeEvent(self, event):
-        self.loop.exec()  # по сути raise error xdd
+        self.loop.exec()  # по сути raise error
         event.accept()  # Принимаем событие закрытия
 
     def open_lift_window(self, id):
@@ -147,14 +141,10 @@ class Elevator:
         self.target_floor = None
         self.floors_queue = Queue()
 
-        # self.callbacks = []  # это важная часть, для общения между моделью и контроллером
+        # Важная часть, для общения между моделью и контроллером:
         self.scroll_callback = None
         self.checkers_callback = None
         self.door_status_callback = None
-        self.passengers_status_callback = None
-        self.current_floor_status_callback = None
-        self.target_floor_status_callback = None
-        self.queue_status_callback = None
 
         self.is_running = True
 
@@ -164,16 +154,12 @@ class Elevator:
             while not(self.floors_queue.empty()):
                 # Сначала добираемся до этажа, а потом вниз спускаемся
                 # Для простоты по пути не останавливаясь
-                # self.notify_observer_ql(self.elevator_id)
                 self.target_floor = self.floors_queue.get()
                 status = 1
                 passengers = 0
                 if not(self.target_floor == self.current_floor):
                     self.notify_observer_ck(self.current_floor)
-                    # self.notify_observer_cf(self.current_floor)
-                    # self.notify_observer_tf(self.target_floor)
                     for i in range(abs(self.target_floor - self.current_floor)):
-                        # self.notify_observer_cf(self.current_floor)
                         if self.target_floor > self.current_floor:
                             for j in range(10):
                                 status += step / 10
@@ -189,34 +175,20 @@ class Elevator:
                     self.notify_observer_ds(True)
                     await asyncio.sleep(3.0)
                     passengers += randint(1, 4)
-                    # self.notify_observer_pa(passengers)
                     self.notify_observer_ds(False)
                     self.notify_observer_sc(status)
                     self.notify_observer_ck(self.current_floor)
 
-                    # random_floor = randint(1, self.floors_amount)
-                    # self.target_floor = random_floor
-                    # self.notify_observer_tf(self.target_floor)
                     for i in range(abs(1 - self.current_floor)):
-                        # self.notify_observer_cf(self.current_floor)
                         for j in range(10):
                             status -= step / 10
                             self.notify_observer_sc(status)
                             await asyncio.sleep(6.0 / 10)
                         self.move_to_floor(self.current_floor - 1)  # вниз
-                    # passengers = 0
-                    # self.notify_observer_pa(passengers)
                 else:
                     self.notify_observer_ck(self.current_floor)
-                    # self.notify_observer_tf(self.target_floor)
-                    # self.notify_observer_cf(self.current_floor)
-                    # self.notify_observer_pa(passengers)
-
                 self.notify_observer_ds(True)
                 await asyncio.sleep(3.0)
-                # self.notify_observer_pa(passengers)
-                # self.notify_observer_tf(self.target_floor)
-                # self.notify_observer_cf(self.current_floor)
                 self.notify_observer_ds(False)
                 self.notify_observer_sc(status)
                 self.notify_observer_ck(self.current_floor)
@@ -247,18 +219,6 @@ class Elevator:
     def register_ds_observer(self, callback):
         self.door_status_callback = callback
 
-    # def register_pa_observer(self, callback):
-    #     self.passengers_status_callback = callback
-    #
-    # def register_cf_observer(self, callback):
-    #     self.current_floor_status_callback = callback
-    #
-    # def register_tf_observer(self, callback):
-    #     self.target_floor_status_callback = callback
-
-    # def register_ql_observer(self, callback):
-    #     self.queue_status_callback = callback
-
     def notify_observer_sc(self, status):
         self.scroll_callback(status)
 
@@ -267,18 +227,6 @@ class Elevator:
 
     def notify_observer_ds(self, status):
         self.door_status_callback(status)
-
-    # def notify_observer_pa(self, passengers):
-    #     self.passengers_status_callback(passengers)
-    #
-    # def notify_observer_cf(self, current_floor):
-    #     self.current_floor_status_callback(current_floor)
-    #
-    # def notify_observer_tf(self, target_floor):
-    #     self.target_floor_status_callback(target_floor)
-
-    # def notify_observer_ql(self, elevator_id):
-    #     self.queue_status_callback(elevator_id)
 
 
 class ElevatorController:
@@ -300,10 +248,11 @@ class ElevatorView(QWidget):
         super().__init__()
         if floors == 3:
             self.ui = Ui_Form_3floors()
-        elif floors == 4:
-            self.ui = Ui_Form_4floors()
-        else:
-            self.ui = Ui_Form_5floors()
+        # Для нескольких этажей:
+        # elif floors == 4:
+        #     self.ui = Ui_Form_4floors()
+        # else:
+        #     self.ui = Ui_Form_5floors()
         self.ui.setupUi(self)
 
         icon = QIcon(str(Path("src/lift.ico")))
@@ -342,14 +291,6 @@ class ElevatorView(QWidget):
             self.ui.lift_door_status_label.setText(f"Двери открыты")
         else:
             self.ui.lift_door_status_label.setText(f"Двери закрыты")
-        # self.ui.lift_passengers_label.setText(f"Пассажиров внутри {elevator.passengers}")
-        # self.ui.lift_current_floor_label.setText(f"Текущий этаж {elevator.current_floor}")
-        # self.ui.lift_destination_label.setText(f"Направляется на этаж {elevator.target_floor}")
-        # b = elevator.floors_queue
-        # queue = []
-        # while not(b.empty()):
-        #     queue.append(b.get())
-        # self.ui.lift_queue_label.setText(f"Очередь вызовов {str(queue)}")
         self.update_checkboxes()
 
     def update_checkboxes(self):
@@ -387,25 +328,6 @@ class ElevatorView(QWidget):
         else:
             self.ui.lift_door_status_label.setText("Двери закрыты")
 
-    # def update_passangers_status(self, passengers):
-    #     self.ui.lift_passengers_label.setText(f"Пассажиров внутри {passengers}")
-    #
-    # def update_current_floor_status(self, current_floor):
-    #     self.ui.lift_current_floor_label.setText(f"Текущий этаж {current_floor}")
-    #
-    # def update_target_floor_status(self, target_floor):
-    #     self.ui.lift_destination_label.setText(f"Направляется на этаж {target_floor}")
-
-    # def update_queue_status(self, elevator_id):
-    #     b = self.controller.elevators[elevator_id - 1].floors_queue copy.deepcopy <-
-    #     queue = []
-    #     while not (b.empty()):
-    #         queue.append(b.get())
-    #     self.ui.lift_queue_label.setText(f"Очередь вызовов {str(queue)}")
-
-    # def elevator_call(self):
-    #     pass  # не изменяем флаг
-
 
 def main():
     app = QApplication(sys.argv)
@@ -419,7 +341,7 @@ def main():
     for id in range(1, num_elevators + 1):
         street_id = (id + 4 - 1) // 2 + 1
         house_id = id % 4 + 1
-        floors_amount = randint(3, 5)
+        floors_amount = 3  # randint(3, 5)
         live = randint(100, 999)
         capacity = randint(6, 14) * 50
 
