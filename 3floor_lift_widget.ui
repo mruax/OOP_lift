@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Form</class>
+ <widget class="QWidget" name="Form">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>609</width>
+    <height>693</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <widget class="QWidget" name="horizontalLayoutWidget_6">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>591</width>
+     <height>541</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <item>
+     <layout class="QVBoxLayout" name="left_part_4">
+      <item>
+       <layout class="QHBoxLayout" name="left_floor_layout_10">
+        <item>
+         <widget class="QLabel" name="left_floor_lbl2_2">
+          <property name="text">
+           <string>Этаж</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="left_floor_checkbox1_2">
+          <property name="text">
+           <string>Вызов</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_11">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="left_floor_layout_11">
+        <item>
+         <widget class="QLabel" name="left_floor_lbl_10">
+          <property name="text">
+           <string>Этаж</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="left_floor_checkbox_10">
+          <property name="text">
+           <string>Вызов</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_12">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="left_floor_layout_12">
+        <item>
+         <widget class="QLabel" name="left_floor_lbl_11">
+          <property name="text">
+           <string>Этаж</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="left_floor_checkbox_11">
+          <property name="text">
+           <string>Вызов</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="Line" name="line_13">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QSlider" name="lift_floor_slider_2">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="Line" name="line_14">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="right_part_2">
+      <item>
+       <layout class="QHBoxLayout" name="right_floor_layout_14">
+        <item>
+         <widget class="QLabel" name="right_floor_lbl_14">
+          <property name="text">
+           <string>Этаж</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="right_floor_checkbox_14">
+          <property name="text">
+           <string>Вызов</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_15">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="right_floor_layout_15">
+        <item>
+         <widget class="QLabel" name="right_floor_lbl_15">
+          <property name="text">
+           <string>Этаж</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="right_floor_checkbox_15">
+          <property name="text">
+           <string>Вызов</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="Line" name="line_16">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="right_floor_layout_16">
+        <item>
+         <widget class="QLabel" name="right_floor_lbl_16">
+          <property name="text">
+           <string>Этаж</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QCheckBox" name="right_floor_checkbox_16">
+          <property name="text">
+           <string>Вызов</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget_5">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>560</y>
+     <width>591</width>
+     <height>121</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="operator_functions" stretch="7,3">
+    <item>
+     <layout class="QVBoxLayout" name="lift_info">
+      <item>
+       <widget class="QLabel" name="lift_door_status_label">
+        <property name="text">
+         <string>Двери</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lift_passengers_label">
+        <property name="text">
+         <string>Пассажиров внутри</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lift_current_floor_label">
+        <property name="text">
+         <string>Текущий этаж</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lift_destination_label">
+        <property name="text">
+         <string>Направляется на этаж</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="lift_queue_label">
+        <property name="text">
+         <string>Очередь вызовов</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QVBoxLayout" name="lift_functions">
+      <item>
+       <widget class="QPushButton" name="change_lift_status_btn">
+        <property name="text">
+         <string>Остановить/Запустить</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="change_door_status_btn">
+        <property name="text">
+         <string>Открыть/Закрыть двери</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="send_to_floor_btn">
+        <property name="text">
+         <string>Отправить на этаж n</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="lift_info_btn">
+        <property name="text">
+         <string>Информация о лифте</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
