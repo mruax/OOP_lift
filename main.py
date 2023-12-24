@@ -164,16 +164,16 @@ class Elevator:
             while not(self.floors_queue.empty()):
                 # Сначала добираемся до этажа, а потом вниз спускаемся
                 # Для простоты по пути не останавливаясь
-                self.notify_observer_ql(self.elevator_id)
+                # self.notify_observer_ql(self.elevator_id)
                 self.target_floor = self.floors_queue.get()
                 status = 1
                 passengers = 0
                 if not(self.target_floor == self.current_floor):
                     self.notify_observer_ck(self.current_floor)
-                    self.notify_observer_cf(self.current_floor)
-                    self.notify_observer_tf(self.target_floor)
+                    # self.notify_observer_cf(self.current_floor)
+                    # self.notify_observer_tf(self.target_floor)
                     for i in range(abs(self.target_floor - self.current_floor)):
-                        self.notify_observer_cf(self.current_floor)
+                        # self.notify_observer_cf(self.current_floor)
                         if self.target_floor > self.current_floor:
                             for j in range(10):
                                 status += step / 10
@@ -189,36 +189,34 @@ class Elevator:
                     self.notify_observer_ds(True)
                     await asyncio.sleep(3.0)
                     passengers += randint(1, 4)
-                    self.notify_observer_pa(passengers)
+                    # self.notify_observer_pa(passengers)
                     self.notify_observer_ds(False)
                     self.notify_observer_sc(status)
                     self.notify_observer_ck(self.current_floor)
 
                     # random_floor = randint(1, self.floors_amount)
                     # self.target_floor = random_floor
-                    self.notify_observer_tf(self.target_floor)
+                    # self.notify_observer_tf(self.target_floor)
                     for i in range(abs(1 - self.current_floor)):
-                        self.notify_observer_cf(self.current_floor)
+                        # self.notify_observer_cf(self.current_floor)
                         for j in range(10):
                             status -= step / 10
                             self.notify_observer_sc(status)
                             await asyncio.sleep(6.0 / 10)
                         self.move_to_floor(self.current_floor - 1)  # вниз
                     passengers = 0
-                    self.notify_observer_pa(passengers)
+                    # self.notify_observer_pa(passengers)
                 else:
                     self.notify_observer_ck(self.current_floor)
-                    self.notify_observer_tf(self.target_floor)
-                    self.notify_observer_cf(self.current_floor)
-                    self.notify_observer_pa(passengers)
-
-                self.notify_observer_ql(self.elevator_id)
+                    # self.notify_observer_tf(self.target_floor)
+                    # self.notify_observer_cf(self.current_floor)
+                    # self.notify_observer_pa(passengers)
 
                 self.notify_observer_ds(True)
                 await asyncio.sleep(3.0)
-                self.notify_observer_pa(passengers)
-                self.notify_observer_tf(self.target_floor)
-                self.notify_observer_cf(self.current_floor)
+                # self.notify_observer_pa(passengers)
+                # self.notify_observer_tf(self.target_floor)
+                # self.notify_observer_cf(self.current_floor)
                 self.notify_observer_ds(False)
                 self.notify_observer_sc(status)
                 self.notify_observer_ck(self.current_floor)
@@ -240,11 +238,6 @@ class Elevator:
         else:
             self.door_status = True
 
-        # self.controller.elevators[self.elevator_id - 1].register_pa_observer(self.update_passangers_status)
-        # self.controller.elevators[self.elevator_id - 1].register_cf_observer(self.update_current_floor_status)
-        # self.controller.elevators[self.elevator_id - 1].register_tf_observer(self.update_target_floor_status)
-        # self.controller.elevators[self.elevator_id - 1].register_ql_observer(self.update_queue_status)
-
     def register_sc_observer(self, callback):
         self.scroll_callback = callback
 
@@ -254,17 +247,17 @@ class Elevator:
     def register_ds_observer(self, callback):
         self.door_status_callback = callback
 
-    def register_pa_observer(self, callback):
-        self.passengers_status_callback = callback
+    # def register_pa_observer(self, callback):
+    #     self.passengers_status_callback = callback
+    #
+    # def register_cf_observer(self, callback):
+    #     self.current_floor_status_callback = callback
+    #
+    # def register_tf_observer(self, callback):
+    #     self.target_floor_status_callback = callback
 
-    def register_cf_observer(self, callback):
-        self.current_floor_status_callback = callback
-
-    def register_tf_observer(self, callback):
-        self.target_floor_status_callback = callback
-
-    def register_ql_observer(self, callback):
-        self.queue_status_callback = callback
+    # def register_ql_observer(self, callback):
+    #     self.queue_status_callback = callback
 
     def notify_observer_sc(self, status):
         self.scroll_callback(status)
@@ -275,17 +268,17 @@ class Elevator:
     def notify_observer_ds(self, status):
         self.door_status_callback(status)
 
-    def notify_observer_pa(self, passengers):
-        self.passengers_status_callback(passengers)
+    # def notify_observer_pa(self, passengers):
+    #     self.passengers_status_callback(passengers)
+    #
+    # def notify_observer_cf(self, current_floor):
+    #     self.current_floor_status_callback(current_floor)
+    #
+    # def notify_observer_tf(self, target_floor):
+    #     self.target_floor_status_callback(target_floor)
 
-    def notify_observer_cf(self, current_floor):
-        self.current_floor_status_callback(current_floor)
-
-    def notify_observer_tf(self, target_floor):
-        self.target_floor_status_callback(target_floor)
-
-    def notify_observer_ql(self, elevator_id):
-        self.queue_status_callback(elevator_id)
+    # def notify_observer_ql(self, elevator_id):
+    #     self.queue_status_callback(elevator_id)
 
 
 class ElevatorController:
@@ -341,10 +334,10 @@ class ElevatorView(QWidget):
         self.controller.elevators[self.elevator_id - 1].register_sc_observer(self.update_elevator_scrollbar)
         self.controller.elevators[self.elevator_id - 1].register_ck_observer(self.update_elevator_status)
         self.controller.elevators[self.elevator_id - 1].register_ds_observer(self.update_door_status)
-        self.controller.elevators[self.elevator_id - 1].register_pa_observer(self.update_passangers_status)
-        self.controller.elevators[self.elevator_id - 1].register_cf_observer(self.update_current_floor_status)
-        self.controller.elevators[self.elevator_id - 1].register_tf_observer(self.update_target_floor_status)
-        self.controller.elevators[self.elevator_id - 1].register_ql_observer(self.update_queue_status)
+        # self.controller.elevators[self.elevator_id - 1].register_pa_observer(self.update_passangers_status)
+        # self.controller.elevators[self.elevator_id - 1].register_cf_observer(self.update_current_floor_status)
+        # self.controller.elevators[self.elevator_id - 1].register_tf_observer(self.update_target_floor_status)
+        # self.controller.elevators[self.elevator_id - 1].register_ql_observer(self.update_queue_status)
 
         # self.ui.left_floor_checkbox1.stateChanged.connect(self.elevator_call)
         # self.ui.left_floor_checkbox2.stateChanged.connect(self.elevator_call)
@@ -417,21 +410,21 @@ class ElevatorView(QWidget):
         else:
             self.ui.lift_door_status_label.setText("Двери закрыты")
 
-    def update_passangers_status(self, passengers):
-        self.ui.lift_passengers_label.setText(f"Пассажиров внутри {passengers}")
+    # def update_passangers_status(self, passengers):
+    #     self.ui.lift_passengers_label.setText(f"Пассажиров внутри {passengers}")
+    #
+    # def update_current_floor_status(self, current_floor):
+    #     self.ui.lift_current_floor_label.setText(f"Текущий этаж {current_floor}")
+    #
+    # def update_target_floor_status(self, target_floor):
+    #     self.ui.lift_destination_label.setText(f"Направляется на этаж {target_floor}")
 
-    def update_current_floor_status(self, current_floor):
-        self.ui.lift_current_floor_label.setText(f"Текущий этаж {current_floor}")
-
-    def update_target_floor_status(self, target_floor):
-        self.ui.lift_destination_label.setText(f"Направляется на этаж {target_floor}")
-
-    def update_queue_status(self, elevator_id):
-        b = self.controller.elevators[elevator_id - 1].floors_queue
-        queue = []
-        while not (b.empty()):
-            queue.append(b.get())
-        self.ui.lift_queue_label.setText(f"Очередь вызовов {queue}")
+    # def update_queue_status(self, elevator_id):
+    #     b = self.controller.elevators[elevator_id - 1].floors_queue copy.deepcopy <-
+    #     queue = []
+    #     while not (b.empty()):
+    #         queue.append(b.get())
+    #     self.ui.lift_queue_label.setText(f"Очередь вызовов {str(queue)}")
 
     # def elevator_call(self):
     #     pass  # не изменяем флаг
