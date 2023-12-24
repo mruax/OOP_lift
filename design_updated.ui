@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>685</width>
-    <height>593</height>
+    <height>638</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -962,6 +962,25 @@
         </layout>
        </item>
       </layout>
+     </item>
+    </layout>
+   </widget>
+   <widget class="QWidget" name="horizontalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>560</y>
+      <width>671</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QPushButton" name="simultation_btn">
+       <property name="text">
+        <string>Начать симуляцию</string>
+       </property>
+      </widget>
      </item>
     </layout>
    </widget>

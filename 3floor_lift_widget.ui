@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>609</width>
-    <height>693</height>
+    <height>705</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,16 +28,19 @@
       <item>
        <layout class="QHBoxLayout" name="left_floor_layout_10">
         <item>
-         <widget class="QLabel" name="left_floor_lbl2_2">
+         <widget class="QLabel" name="left_floor_lbl_3">
           <property name="text">
-           <string>Этаж</string>
+           <string>Этаж 3</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="left_floor_checkbox1_2">
+         <widget class="QCheckBox" name="left_floor_checkbox3">
           <property name="text">
            <string>Вызов</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -53,16 +56,19 @@
       <item>
        <layout class="QHBoxLayout" name="left_floor_layout_11">
         <item>
-         <widget class="QLabel" name="left_floor_lbl_10">
+         <widget class="QLabel" name="left_floor_lbl_2">
           <property name="text">
-           <string>Этаж</string>
+           <string>Этаж 2</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="left_floor_checkbox_10">
+         <widget class="QCheckBox" name="left_floor_checkbox2">
           <property name="text">
            <string>Вызов</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -78,16 +84,19 @@
       <item>
        <layout class="QHBoxLayout" name="left_floor_layout_12">
         <item>
-         <widget class="QLabel" name="left_floor_lbl_11">
+         <widget class="QLabel" name="left_floor_lbl_1">
           <property name="text">
-           <string>Этаж</string>
+           <string>Этаж 1</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="left_floor_checkbox_11">
+         <widget class="QCheckBox" name="left_floor_checkbox1">
           <property name="text">
            <string>Вызов</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -121,16 +130,19 @@
       <item>
        <layout class="QHBoxLayout" name="right_floor_layout_14">
         <item>
-         <widget class="QLabel" name="right_floor_lbl_14">
+         <widget class="QLabel" name="right_floor_lbl_3">
           <property name="text">
-           <string>Этаж</string>
+           <string>Этаж 3</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="right_floor_checkbox_14">
+         <widget class="QCheckBox" name="right_floor_checkbox3">
           <property name="text">
            <string>Вызов</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -146,16 +158,19 @@
       <item>
        <layout class="QHBoxLayout" name="right_floor_layout_15">
         <item>
-         <widget class="QLabel" name="right_floor_lbl_15">
+         <widget class="QLabel" name="right_floor_lbl_2">
           <property name="text">
-           <string>Этаж</string>
+           <string>Этаж 2</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="right_floor_checkbox_15">
+         <widget class="QCheckBox" name="right_floor_checkbox2">
           <property name="text">
            <string>Вызов</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -171,16 +186,19 @@
       <item>
        <layout class="QHBoxLayout" name="right_floor_layout_16">
         <item>
-         <widget class="QLabel" name="right_floor_lbl_16">
+         <widget class="QLabel" name="right_floor_lbl_1">
           <property name="text">
-           <string>Этаж</string>
+           <string>Этаж 1</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QCheckBox" name="right_floor_checkbox_16">
+         <widget class="QCheckBox" name="right_floor_checkbox1">
           <property name="text">
            <string>Вызов</string>
+          </property>
+          <property name="checkable">
+           <bool>false</bool>
           </property>
          </widget>
         </item>
@@ -196,44 +214,51 @@
      <x>10</x>
      <y>560</y>
      <width>591</width>
-     <height>121</height>
+     <height>131</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="operator_functions" stretch="7,3">
     <item>
      <layout class="QVBoxLayout" name="lift_info">
       <item>
+       <widget class="QLabel" name="lift_status_label">
+        <property name="text">
+         <string>Лифт в рабочем состоянии</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="lift_door_status_label">
         <property name="text">
-         <string>Двери</string>
+         <string>Двери закрыты</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="lift_passengers_label">
         <property name="text">
-         <string>Пассажиров внутри</string>
+         <string>Пассажиров внутри 0</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="lift_current_floor_label">
         <property name="text">
-         <string>Текущий этаж</string>
+         <string>Текущий этаж 1</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="lift_destination_label">
         <property name="text">
-         <string>Направляется на этаж</string>
+         <string>Направляется на этаж None</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLabel" name="lift_queue_label">
         <property name="text">
-         <string>Очередь вызовов</string>
+         <string>Очередь вызовов []</string>
         </property>
        </widget>
       </item>
@@ -263,9 +288,9 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="lift_info_btn">
+       <widget class="QLabel" name="label">
         <property name="text">
-         <string>Информация о лифте</string>
+         <string>Грузоподъёмность 100</string>
         </property>
        </widget>
       </item>
