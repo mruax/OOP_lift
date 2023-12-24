@@ -1,18 +1,18 @@
 import asyncio
-import faker
-from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QIcon, QPixmap
+from PyQt5.QtGui import QIcon
 from faker import Faker
 from qasync import QEventLoop, asyncSlot
 from pathlib import Path
-from random import randint, choice
+from random import randint
 from queue import Queue
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 import sys
 
 from generated_ui import Ui_MainWindow
 from generated_3floor_lift import Ui_Form as Ui_Form_3floors
+from generated_4floor_lift import Ui_Form as Ui_Form_4floors
+from generated_5floor_lift import Ui_Form as Ui_Form_5floors
 
 
 class MainWindow(QMainWindow):
@@ -204,7 +204,7 @@ class Elevator:
                             self.notify_observer_sc(status)
                             await asyncio.sleep(6.0 / 10)
                         self.move_to_floor(self.current_floor - 1)  # вниз
-                    passengers = 0
+                    # passengers = 0
                     # self.notify_observer_pa(passengers)
                 else:
                     self.notify_observer_ck(self.current_floor)
@@ -300,10 +300,10 @@ class ElevatorView(QWidget):
         super().__init__()
         if floors == 3:
             self.ui = Ui_Form_3floors()
-        # elif floors == 4:  # TODO
-        #     self.ui = Ui_Form_4floors()
-        # else:
-        #     self.ui = Ui_Form_5floors()
+        elif floors == 4:
+            self.ui = Ui_Form_4floors()
+        else:
+            self.ui = Ui_Form_5floors()
         self.ui.setupUi(self)
 
         icon = QIcon(str(Path("src/lift.ico")))
@@ -316,17 +316,13 @@ class ElevatorView(QWidget):
 
         self.initialize_ui()
 
-        self.ui.lift_floor_slider_2.setStyleSheet("QSlider::handle:vertical { background-image: url('src/lift_v2.png'); }")
-        # self.ui.lift_floor_slider_2.setStyleSheet(
-        #     """
-        #     QSlider::handle:vertical {
-        #         background-image: url('src/lift_v2.png');
-        #         height: 15px;
-        #         width: 15px;
-        #     }
-        #     """
-        # )
-
+        self.ui.lift_floor_slider_2.setStyleSheet(
+            """
+            QSlider::handle:vertical {
+                background-image: url('src/lift_v2.png');
+            }
+            """
+        )
 
         self.ui.change_lift_status_btn.clicked.connect(self.change_elevator_status)
         self.ui.change_door_status_btn.clicked.connect(self.change_door_status)
@@ -334,27 +330,8 @@ class ElevatorView(QWidget):
         self.controller.elevators[self.elevator_id - 1].register_sc_observer(self.update_elevator_scrollbar)
         self.controller.elevators[self.elevator_id - 1].register_ck_observer(self.update_elevator_status)
         self.controller.elevators[self.elevator_id - 1].register_ds_observer(self.update_door_status)
-        # self.controller.elevators[self.elevator_id - 1].register_pa_observer(self.update_passangers_status)
-        # self.controller.elevators[self.elevator_id - 1].register_cf_observer(self.update_current_floor_status)
-        # self.controller.elevators[self.elevator_id - 1].register_tf_observer(self.update_target_floor_status)
-        # self.controller.elevators[self.elevator_id - 1].register_ql_observer(self.update_queue_status)
 
-        # self.ui.left_floor_checkbox1.stateChanged.connect(self.elevator_call)
-        # self.ui.left_floor_checkbox2.stateChanged.connect(self.elevator_call)
-        # self.ui.left_floor_checkbox3.stateChanged.connect(self.elevator_call)
-        # self.ui.right_floor_checkbox1.stateChanged.connect(self.elevator_call)
-        # self.ui.right_floor_checkbox2.stateChanged.connect(self.elevator_call)
-        # self.ui.right_floor_checkbox3.stateChanged.connect(self.elevator_call)
-        # if floors == 4:
-        #     self.ui.left_floor_checkbox4.stateChanged.connect(self.elevator_call)
-        #     self.ui.right_floor_checkbox4.stateChanged.connect(self.elevator_call)
-        # elif floors == 5:
-        #     self.ui.left_floor_checkbox4.stateChanged.connect(self.elevator_call)
-        #     self.ui.right_floor_checkbox4.stateChanged.connect(self.elevator_call)
-        #     self.ui.left_floor_checkbox5.stateChanged.connect(self.elevator_call)
-        #     self.ui.right_floor_checkbox5.stateChanged.connect(self.elevator_call)
-
-    def initialize_ui(self, status=None):
+    def initialize_ui(self):
         elevator = self.controller.elevators[self.elevator_id - 1]
         self.ui.label.setText(f"Грузоподъёмность {elevator.capacity}")
         if elevator.lift_status:
@@ -365,14 +342,14 @@ class ElevatorView(QWidget):
             self.ui.lift_door_status_label.setText(f"Двери открыты")
         else:
             self.ui.lift_door_status_label.setText(f"Двери закрыты")
-        self.ui.lift_passengers_label.setText(f"Пассажиров внутри {elevator.passengers}")
-        self.ui.lift_current_floor_label.setText(f"Текущий этаж {elevator.current_floor}")
-        self.ui.lift_destination_label.setText(f"Направляется на этаж {elevator.target_floor}")
-        b = elevator.floors_queue
-        queue = []
-        while not(b.empty()):
-            queue.append(b.get())
-        self.ui.lift_queue_label.setText(f"Очередь вызовов {str(queue)}")
+        # self.ui.lift_passengers_label.setText(f"Пассажиров внутри {elevator.passengers}")
+        # self.ui.lift_current_floor_label.setText(f"Текущий этаж {elevator.current_floor}")
+        # self.ui.lift_destination_label.setText(f"Направляется на этаж {elevator.target_floor}")
+        # b = elevator.floors_queue
+        # queue = []
+        # while not(b.empty()):
+        #     queue.append(b.get())
+        # self.ui.lift_queue_label.setText(f"Очередь вызовов {str(queue)}")
         self.update_checkboxes()
 
     def update_checkboxes(self):
@@ -442,7 +419,7 @@ def main():
     for id in range(1, num_elevators + 1):
         street_id = (id + 4 - 1) // 2 + 1
         house_id = id % 4 + 1
-        floors_amount = 3  # TODO: random floors
+        floors_amount = randint(3, 5)
         live = randint(100, 999)
         capacity = randint(6, 14) * 50
 
