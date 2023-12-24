@@ -1,0 +1,998 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>685</width>
+    <height>593</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="gridLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>9</x>
+      <y>9</y>
+      <width>668</width>
+      <height>541</height>
+     </rect>
+    </property>
+    <layout class="QGridLayout" name="gridLayout" rowstretch="1,1">
+     <item row="0" column="0">
+      <layout class="QVBoxLayout" name="streetLayout1" stretch="1,10">
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="st1_lbl">
+         <property name="text">
+          <string>Улица 1</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="homesLayout1" stretch="1,1,1,1">
+         <item>
+          <layout class="QVBoxLayout" name="st1_home1Layout">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home1_lbl">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift1">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift2">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift3">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift4">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home2Layout">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home2_lbl">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес:Улица Пушкина дом колотушкина
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift1">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift2">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift3">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift4">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home3Layout">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home3_lbl">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 3
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift1">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift2">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift3">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift4">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home4Layout">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home4_lbl">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 4
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift1">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift2">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift3">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift4">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="0" column="1">
+      <layout class="QVBoxLayout" name="streetLayout1_6" stretch="1,10">
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="st1_lbl_4">
+         <property name="text">
+          <string>Улица 2</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="homesLayout1_6" stretch="1,1,1,1">
+         <item>
+          <layout class="QVBoxLayout" name="st1_home1Layout_6">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home1_lbl_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift1_7">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift2_7">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift3_7">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift4_7">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home2Layout_6">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home2_lbl_6">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес:Улица Пушкина дом колотушкина
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift1_6">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift2_6">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift3_6">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift4_6">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home3Layout_6">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home3_lbl_6">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 3
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift1_6">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift2_6">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift3_6">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift4_6">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home4Layout_6">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home4_lbl_6">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 4
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift1_6">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift2_6">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift3_6">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift4_6">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="0">
+      <layout class="QVBoxLayout" name="streetLayout1_7" stretch="1,10">
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="st1_lbl_5">
+         <property name="text">
+          <string>Улица 3</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="homesLayout1_7" stretch="1,1,1,1">
+         <item>
+          <layout class="QVBoxLayout" name="st1_home1Layout_7">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home1_lbl_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift1_8">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift2_8">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift3_8">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift4_8">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home2Layout_7">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home2_lbl_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес:Улица Пушкина дом колотушкина
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift1_7">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift2_7">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift3_7">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift4_7">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home3Layout_7">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home3_lbl_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 3
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift1_7">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift2_7">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift3_7">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift4_7">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home4Layout_7">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home4_lbl_7">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 4
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift1_7">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift2_7">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift3_7">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift4_7">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+     <item row="1" column="1">
+      <layout class="QVBoxLayout" name="streetLayout1_8" stretch="1,10">
+       <item alignment="Qt::AlignTop">
+        <widget class="QLabel" name="st1_lbl_6">
+         <property name="text">
+          <string>Улица 4</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="homesLayout1_8" stretch="1,1,1,1">
+         <item>
+          <layout class="QVBoxLayout" name="st1_home1Layout_8">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home1_lbl_9">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift1_9">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift2_9">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift3_9">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home1_lift4_9">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home2Layout_8">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home2_lbl_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="text">
+              <string>Дом 1
+
+Адрес:Улица Пушкина дом колотушкина
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+             <property name="textFormat">
+              <enum>Qt::AutoText</enum>
+             </property>
+             <property name="scaledContents">
+              <bool>false</bool>
+             </property>
+             <property name="wordWrap">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift1_8">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift2_8">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift3_8">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home2_lift4_8">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home3Layout_8">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home3_lbl_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 3
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift1_8">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift2_8">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift3_8">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home3_lift4_8">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <layout class="QVBoxLayout" name="st1_home4Layout_8">
+           <item alignment="Qt::AlignTop">
+            <widget class="QLabel" name="st1_home4_lbl_8">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string>Дом 4
+
+Адрес: ...
+
+Этажей: ...
+
+Жильцов: ...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift1_8">
+             <property name="text">
+              <string>Лифт 1</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift2_8">
+             <property name="text">
+              <string>Лифт 2</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift3_8">
+             <property name="text">
+              <string>Лифт 3</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="st1_home4_lift4_8">
+             <property name="text">
+              <string>Лифт 4</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>685</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuhelp">
+    <property name="title">
+     <string>Help</string>
+    </property>
+   </widget>
+   <addaction name="menuhelp"/>
+  </widget>
+  <widget class="QStatusBar" name="statusbar"/>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

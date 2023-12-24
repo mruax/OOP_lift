@@ -1,11 +1,31 @@
 import asyncio
 import faker
+from PyQt5.QtGui import QIcon
 from qasync import QEventLoop, asyncSlot
 from pathlib import Path
 from random import randint, choice
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget, QVBoxLayout, QLabel, QPushButton
 import sys
+
+from generated_ui import Ui_MainWindow
+
+
+class MainWindow(QMainWindow):
+    def __init__(self, loop=None):
+        super().__init__()
+        self.ui = Ui_MainWindow()
+        self.ui.setupUi(self)
+        # self.ui.label.adjustSize()
+        self.setWindowTitle("Lift")
+        # icon = QIcon(str(Path("src/plane.ico")))
+        # self.setWindowIcon(icon)
+
+        self.loop = loop
+
+    def closeEvent(self, event):
+        self.loop.exec()  # по сути raise error xdd
+        event.accept()  # Принимаем событие закрытия
 
 
 class Elevator:
@@ -64,7 +84,7 @@ class ElevatorView(QWidget):
         self.elevator_label.setText(status)
 
 
-if __name__ == "__main__":
+def main():
     app = QApplication(sys.argv)
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
@@ -77,10 +97,14 @@ if __name__ == "__main__":
 
     elevator_views = [ElevatorView(controller, elevator) for elevator in elevators]
 
-    for view in elevator_views:
-        view.show()
+    # for view in elevator_views:
+    #     view.show()
 
     with loop:
         loop.run_forever()
 
     sys.exit(app.exec())
+
+
+if __name__ == "__main__":
+    main()
