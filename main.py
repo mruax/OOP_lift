@@ -1,16 +1,16 @@
 import asyncio
+import sys
+from pathlib import Path
+from queue import Queue
+from random import randint
+
 from PyQt5.QtGui import QIcon
+from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
 from faker import Faker
 from qasync import QEventLoop, asyncSlot
-from pathlib import Path
-from random import randint
-from queue import Queue
 
-from PyQt5.QtWidgets import QApplication, QMainWindow, QWidget
-import sys
-
-from generated_ui import Ui_MainWindow
 from generated_3floor_lift import Ui_Form as Ui_Form_3floors
+from generated_ui import Ui_MainWindow
 
 
 class MainWindow(QMainWindow):
@@ -19,6 +19,7 @@ class MainWindow(QMainWindow):
     отдельного окна для них. Запуск симуляции осуществляется по кнопке, после чего начнут генерироваться случайные
     события asyncio.
     """
+
     def __init__(self, loop, elevators, controller, elevator_views, houses, stopped, run_again):
         super().__init__()
         self.ui = Ui_MainWindow()
@@ -100,7 +101,7 @@ class MainWindow(QMainWindow):
             if a <= 13:  # 13% на появление вызова
                 floor = randint(1, house.floors_amount) - 1
                 # для простоты сделаем так, чтобы человек вызывал лифт на этаже только с одной стороны
-                if not(house.left_calls[floor] or house.right_calls[floor]):
+                if not (house.left_calls[floor] or house.right_calls[floor]):
                     if a % 2 == 1:
                         house.left_calls[floor] = True
                     else:
@@ -149,6 +150,7 @@ class House:
     """
     Класс дома. Хранит в себе вызовы лифта, к которым обращаются остальные классы.
     """
+
     def __init__(self, street_id, house_id, floors_amount, live):
         # Расположение
         self.street_id = street_id
@@ -167,6 +169,7 @@ class Elevator:
     """
     Класс модели лифта. Обрабатывает очередь вызовов и уведомляет о результате соответствующим наблюдателям.
     """
+
     def __init__(self, street_id, house_id, elevator_id, capacity, floors_amount):
         # Расположение
         self.street_id = street_id
@@ -206,12 +209,12 @@ class Elevator:
         """
         step = 100 // (self.floors_amount - 1)
         while self.is_running:
-            while not(self.floors_queue.empty()):
+            while not (self.floors_queue.empty()):
                 # Сначала добираемся до этажа, а потом вниз спускаемся
                 # Для простоты по пути не останавливаясь
                 self.target_floor = self.floors_queue.get()
                 status = self.notify_observer_sc(False)
-                if not(self.target_floor == self.current_floor):
+                if not (self.target_floor == self.current_floor):
                     self.notify_observer_ck(self.current_floor)
                     for i in range(abs(self.target_floor - self.current_floor)):
                         if self.target_floor > self.current_floor:
@@ -307,6 +310,7 @@ class ElevatorController:
     Класс контроллера, отвечает за взаимодействие между моделью и представлением, а также передает сигналы о
     случайных событиях asyncio в модель.
     """
+
     def __init__(self, elevators):
         self.elevators = elevators
 
@@ -344,6 +348,7 @@ class ElevatorView(QWidget):
     Класс представление лифта. Отвечает за отображение окна управления лифтом, визуальное представление информации
     и обработки сигналов оператора лифта.
     """
+
     def __init__(self, houses, controller, elevator_id, floors, stopped, run_again):
         super().__init__()
         if floors == 3:
