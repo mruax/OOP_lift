@@ -12,11 +12,13 @@ import sys
 from generated_ui import Ui_MainWindow
 from generated_3floor_lift import Ui_Form as Ui_Form_3floors
 
-# from generated_4floor_lift import Ui_Form as Ui_Form_4floors
-# from generated_5floor_lift import Ui_Form as Ui_Form_5floors
-
 
 class MainWindow(QMainWindow):
+    """
+    Основное окно программы. Здесь находится информация о всех улицах, домах и лифтах, а также запуск каждого
+    отдельного окна для них. Запуск симуляции осуществляется по кнопке, после чего начнут генерироваться случайные
+    события asyncio.
+    """
     def __init__(self, loop, elevators, controller, elevator_views, houses, stopped, run_again):
         super().__init__()
         self.ui = Ui_MainWindow()
@@ -33,18 +35,27 @@ class MainWindow(QMainWindow):
         self.stopped = stopped
         self.run_again = run_again
 
+        # Обновим информацию в интерфейсе
         self.initiate_ui_values()
 
         self.lift_window = None
         self.is_running = False
 
+        # Прикрепим к кнопкам соответствующие функции
         self.ui.simultation_btn.clicked.connect(self.simulation_status)  # кнопка статуса симуляции
         for i in range(1, 65):  # кнопки вызова отдельного окна лифта
             lift_button = getattr(self.ui, f"lift_{i}")
             lift_button.clicked.connect(lambda _, id=i: self.open_lift_window(id))
 
-    @asyncSlot()  # это все 64 таски, цикл с loop
+    @asyncSlot()
     async def elevators_simulation(self):
+        """
+        Асинхронная функция симуляции всех лифтов, основной асинхронный цикл событий.
+        Здесь создаются отдельные задачи для каждого лифта, и в случае возможного отключения оператором останавливаются
+        или запускаются. По завершении симуляции задачи останавливаются.
+
+        :return: None
+        """
         lift_tasks = []
         queue_tasks = []
         for id in range(1, 64 + 1):
@@ -54,7 +65,7 @@ class MainWindow(QMainWindow):
 
         self.is_running = True
         while self.is_running:
-            for id in self.stopped[::-1]:
+            for id in self.stopped[::-1]:  # остановить задачи
                 lift_tasks[id - 1].cancel()
                 queue_tasks[id - 1].cancel()
                 del self.stopped[-1]
@@ -63,7 +74,7 @@ class MainWindow(QMainWindow):
                 self.houses[id - 1].left_calls = [False] * self.houses[id - 1].floors_amount
                 self.houses[id - 1].right_calls = [False] * self.houses[id - 1].floors_amount
                 self.elevator_views[id - 1].update_checkboxes()
-            for id in self.run_again[::-1]:
+            for id in self.run_again[::-1]:  # перезапустить задачи
                 lift_tasks.insert(id - 1, asyncio.create_task(self.lift_simulation(elevator_id=id)))
                 queue_tasks.insert(id - 1, asyncio.create_task(self.controller.elevators[id - 1].simulate_queue()))
                 del self.run_again[-1]
@@ -74,8 +85,14 @@ class MainWindow(QMainWindow):
         for task in queue_tasks:
             task.cancel()
 
-    # это отдельная таска, свой цикл без общего loop
     async def lift_simulation(self, elevator_id):
+        """
+        Асинхронная функция симуляции конкретного лифта, собственный цикл событий.
+        Здесь генерируются случайные события вызова лифта.
+
+        :param elevator_id: int, id лифта
+        :return: None
+        """
         elevator = self.controller.elevators[elevator_id - 1]
         house = self.houses[elevator_id - 1]
         while True:
@@ -103,6 +120,11 @@ class MainWindow(QMainWindow):
             self.elevators_simulation()  # начинает симуляцию лифтов после нажатия кнопки
 
     def initiate_ui_values(self):
+        """
+        Обновляет значения интерфейса. Также генерирует названия улиц :)
+
+        :return: None
+        """
         fake = Faker('ru_RU')
         for i in range(1, 4 + 1):
             address = getattr(self.ui, f"address{i}")
@@ -120,10 +142,13 @@ class MainWindow(QMainWindow):
         event.accept()  # Принимаем событие закрытия
 
     def open_lift_window(self, id):
-        self.elevator_views[id - 1].show()
+        self.elevator_views[id - 1].show()  # просто показывает окно с лифтом
 
 
 class House:
+    """
+    Класс дома. Хранит в себе вызовы лифта, к которым обращаются остальные классы.
+    """
     def __init__(self, street_id, house_id, floors_amount, live):
         # Расположение
         self.street_id = street_id
@@ -139,6 +164,9 @@ class House:
 
 
 class Elevator:
+    """
+    Класс модели лифта. Обрабатывает очередь вызовов и уведомляет о результате соответствующим наблюдателям.
+    """
     def __init__(self, street_id, house_id, elevator_id, capacity, floors_amount):
         # Расположение
         self.street_id = street_id
@@ -164,9 +192,18 @@ class Elevator:
         self.checkers_callback = None
         self.door_status_callback = None
 
+        # Состояние лифта
         self.is_running = True
 
     async def simulate_queue(self):
+        """
+        Асинхронная симуляция обработки очереди. Пока очередь не пустая, то:
+        1. Достает первый вызов из очереди и едет на соответствующий этаж.
+        2. Забирает пассажиров.
+        3. Спускается обратно.
+
+        :return: None
+        """
         step = 100 // (self.floors_amount - 1)
         while self.is_running:
             while not(self.floors_queue.empty()):
@@ -214,20 +251,37 @@ class Elevator:
             await asyncio.sleep(1.0)
 
     def move_to_floor(self, target_floor):
+        """
+        Изменяет текущий этаж лифта.
+
+        :param target_floor: int, этаж
+        :return: None
+        """
         self.current_floor = target_floor
 
     def change_elevator_status(self):
+        """
+        Изменяет состояние лифта.
+
+        :return: None
+        """
         if self.lift_status:
             self.lift_status = False
         else:
             self.lift_status = True
 
     def change_door_status(self):
+        """
+        Изменяет состояние дверей лифта/
+
+        :return: None
+        """
         if self.door_status:
             self.door_status = False
         else:
             self.door_status = True
 
+    # далее идут функции регистрации наблюдателей за конкретными действиями:
     def register_sc_observer(self, callback):
         self.scroll_callback = callback
 
@@ -237,6 +291,7 @@ class Elevator:
     def register_ds_observer(self, callback):
         self.door_status_callback = callback
 
+    # и функции уведомления о соответствующем результате:
     def notify_observer_sc(self, status):
         return self.scroll_callback(status)
 
@@ -248,29 +303,51 @@ class Elevator:
 
 
 class ElevatorController:
+    """
+    Класс контроллера, отвечает за взаимодействие между моделью и представлением, а также передает сигналы о
+    случайных событиях asyncio в модель.
+    """
     def __init__(self, elevators):
         self.elevators = elevators
 
     def call_elevator(self, elevator_id, target_floor):
+        """
+        Вызов функции конкретного лифта выезда на этаж target_floor.
+
+        :param elevator_id: int, id лифта
+        :param target_floor: int, номер этажа
+        :return: None
+        """
         self.elevators[elevator_id - 1].move_to_floor(target_floor)
 
     def change_elevator_status(self, elevator_id):
+        """
+        Вызов функции изменения статуса конкретного лифта.
+
+        :param elevator_id: int, id лифта
+        :return: None
+        """
         self.elevators[elevator_id - 1].change_elevator_status()
 
     def change_door_status(self, elevator_id):
+        """
+        Вызов функции изменения статуса дверей конкретного лифта.
+
+        :param elevator_id: int, id лифта
+        :return: None
+        """
         self.elevators[elevator_id - 1].change_door_status()
 
 
 class ElevatorView(QWidget):
+    """
+    Класс представление лифта. Отвечает за отображение окна управления лифтом, визуальное представление информации
+    и обработки сигналов оператора лифта.
+    """
     def __init__(self, houses, controller, elevator_id, floors, stopped, run_again):
         super().__init__()
         if floors == 3:
             self.ui = Ui_Form_3floors()
-        # Для нескольких этажей:
-        # elif floors == 4:
-        #     self.ui = Ui_Form_4floors()
-        # else:
-        #     self.ui = Ui_Form_5floors()
         self.ui.setupUi(self)
 
         icon = QIcon(str(Path("src/lift.ico")))
@@ -297,11 +374,17 @@ class ElevatorView(QWidget):
         self.ui.change_lift_status_btn.clicked.connect(self.change_elevator_status)
         self.ui.change_door_status_btn.clicked.connect(self.change_door_status)
 
+        # Зарегистрируем наблюдателей
         self.controller.elevators[self.elevator_id - 1].register_sc_observer(self.update_elevator_scrollbar)
         self.controller.elevators[self.elevator_id - 1].register_ck_observer(self.update_elevator_status)
         self.controller.elevators[self.elevator_id - 1].register_ds_observer(self.update_door_status)
 
     def initialize_ui(self):
+        """
+        Инициализация интерфейса. Обращается через контроллер и обновляет значения в зависимости от конкретного лифта.
+
+        :return: None
+        """
         elevator = self.controller.elevators[self.elevator_id - 1]
         self.ui.label.setText(f"Грузоподъёмность {elevator.capacity}")
         if elevator.lift_status:
@@ -315,6 +398,11 @@ class ElevatorView(QWidget):
         self.update_checkboxes()
 
     def update_checkboxes(self):
+        """
+        Обновляет кнопки вызова лифта.
+
+        :return: None
+        """
         for floor, call in enumerate(self.houses[self.elevator_id - 1].left_calls):
             checkbox = getattr(self.ui, f"left_floor_checkbox{floor + 1}")
             checkbox.setChecked(call)
@@ -323,6 +411,11 @@ class ElevatorView(QWidget):
             checkbox.setChecked(call)
 
     def change_elevator_status(self):
+        """
+        Обновляет информацию о статусе лифта.
+
+        :return: None
+        """
         self.controller.change_elevator_status(self.elevator_id)
         if self.controller.elevators[self.elevator_id - 1].lift_status:
             self.ui.lift_status_label.setText("Лифт в рабочем состоянии")
@@ -332,6 +425,11 @@ class ElevatorView(QWidget):
             self.stopped.append(self.elevator_id)
 
     def change_door_status(self):
+        """
+        Обновляет информацию о статусе дверей.
+
+        :return: None
+        """
         self.controller.change_door_status(self.elevator_id)
         if self.controller.elevators[self.elevator_id - 1].door_status:
             self.ui.lift_door_status_label.setText("Двери открыты")
@@ -339,19 +437,36 @@ class ElevatorView(QWidget):
             self.ui.lift_door_status_label.setText("Двери закрыты")
 
     def update_elevator_scrollbar(self, status=False):
+        """
+        Обновляет положение лифта.
+
+        :param status: int, положение лифта от 1 до 100
+        :return: 1 - если лифт перезапущен, иначе не возвращает ничего
+        """
         if status:
             self.status = int(status)
             self.ui.lift_floor_slider_2.setValue(int(status))
         else:
             return 1
-            # return self.status
 
     def update_elevator_status(self, floor):
+        """
+        Обновляет вызовы на том этаже, где лифт забирает/высаживает пассажиров.
+
+        :param floor: int, этаж
+        :return: None
+        """
         self.houses[self.elevator_id - 1].left_calls[floor - 1] = False
         self.houses[self.elevator_id - 1].right_calls[floor - 1] = False
         self.update_checkboxes()
 
     def update_door_status(self, status):
+        """
+        Обновляет статус дверей.
+
+        :param status: bool, открыты/закрыты
+        :return: None
+        """
         if status:
             self.ui.lift_door_status_label.setText("Двери открыты")
         else:
@@ -363,22 +478,24 @@ def main():
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
 
+    # Для остановки и запуска лифтов
     stopped = []
     run_again = []
 
-    # Создадим классы лифтов, контроллеров и интерфейсов, а также самих домов
+    # Создадим классы лифтов, контроллеров и интерфейсов, а также классы самих домов
     num_elevators = 4 * 4 * 4
     elevators = []
     houses = []
     for id in range(1, num_elevators + 1):
         street_id = (id + 4 - 1) // 2 + 1
         house_id = id % 4 + 1
-        floors_amount = 3  # randint(3, 5)
+        floors_amount = 3  # для удоства достаточно 3-этажных домов
         live = randint(100, 999)
         capacity = randint(6, 14) * 50
 
         elevators.append(Elevator(street_id, house_id, id, capacity, floors_amount))
         houses.append(House(street_id, house_id, floors_amount, live))
+
     controller = ElevatorController(elevators)
     elevator_views = [ElevatorView(houses, controller, elevator.elevator_id,
                                    floors=3, stopped=stopped, run_again=run_again) for elevator in elevators]
