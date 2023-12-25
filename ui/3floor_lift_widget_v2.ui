@@ -270,6 +270,13 @@
         </property>
        </widget>
       </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>Грузоподъёмность 100</string>
+        </property>
+       </widget>
+      </item>
      </layout>
     </item>
     <item>
@@ -285,20 +292,6 @@
        <widget class="QPushButton" name="change_door_status_btn">
         <property name="text">
          <string>Открыть/Закрыть двери</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="send_to_floor_btn">
-        <property name="text">
-         <string>Отправить на этаж n</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>Грузоподъёмность 100</string>
         </property>
        </widget>
       </item>

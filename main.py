@@ -174,7 +174,6 @@ class Elevator:
                 # Для простоты по пути не останавливаясь
                 self.target_floor = self.floors_queue.get()
                 status = self.notify_observer_sc(False)
-                passengers = 0
                 if not(self.target_floor == self.current_floor):
                     self.notify_observer_ck(self.current_floor)
                     for i in range(abs(self.target_floor - self.current_floor)):
@@ -192,9 +191,9 @@ class Elevator:
                             self.move_to_floor(self.current_floor - 1)  # вниз
                     self.notify_observer_ds(True)
                     await asyncio.sleep(3.0)
-                    passengers += randint(1, 4)
                     self.notify_observer_ds(False)
                     self.notify_observer_sc(status)
+
                     self.notify_observer_ck(self.current_floor)
 
                     for i in range(abs(1 - self.current_floor)):
@@ -205,11 +204,12 @@ class Elevator:
                         self.move_to_floor(self.current_floor - 1)  # вниз
                 else:
                     self.notify_observer_ck(self.current_floor)
-                self.notify_observer_ds(True)
+
+                self.notify_observer_ds(True)  # Двери открыты
                 await asyncio.sleep(3.0)
-                self.notify_observer_ds(False)
-                self.notify_observer_sc(status)
-                self.notify_observer_ck(self.current_floor)
+                self.notify_observer_ds(False)  # Двери закрыты
+                self.notify_observer_sc(status)  # Обновили положение лифта
+                self.notify_observer_ck(self.current_floor)  # Обновили вызовы
             self.target_floor = None
             await asyncio.sleep(1.0)
 
@@ -343,11 +343,13 @@ class ElevatorView(QWidget):
             self.status = int(status)
             self.ui.lift_floor_slider_2.setValue(int(status))
         else:
-            return self.status
+            return 1
+            # return self.status
 
     def update_elevator_status(self, floor):
         self.houses[self.elevator_id - 1].left_calls[floor - 1] = False
         self.houses[self.elevator_id - 1].right_calls[floor - 1] = False
+        self.update_checkboxes()
 
     def update_door_status(self, status):
         if status:
