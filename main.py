@@ -17,7 +17,7 @@ from generated_3floor_lift import Ui_Form as Ui_Form_3floors
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, loop, elevators, controller, elevator_views, houses):
+    def __init__(self, loop, elevators, controller, elevator_views, houses, stopped, run_again):
         super().__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -30,6 +30,8 @@ class MainWindow(QMainWindow):
         self.controller = controller
         self.elevator_views = elevator_views
         self.houses = houses
+        self.stopped = stopped
+        self.run_again = run_again
 
         self.initiate_ui_values()
 
@@ -43,17 +45,33 @@ class MainWindow(QMainWindow):
 
     @asyncSlot()  # это все 64 таски, цикл с loop
     async def elevators_simulation(self):
-        tasks = []
+        lift_tasks = []
+        queue_tasks = []
         for id in range(1, 64 + 1):
-            tasks.append(asyncio.create_task(self.lift_simulation(elevator_id=id)))
+            lift_tasks.append(asyncio.create_task(self.lift_simulation(elevator_id=id)))
             # обращаемся через контроллер
-            tasks.append(asyncio.create_task(self.controller.elevators[id - 1].simulate_queue()))
+            queue_tasks.append(asyncio.create_task(self.controller.elevators[id - 1].simulate_queue()))
 
         self.is_running = True
         while self.is_running:
+            for id in self.stopped[::-1]:
+                lift_tasks[id - 1].cancel()
+                queue_tasks[id - 1].cancel()
+                del self.stopped[-1]
+                del lift_tasks[id - 1]
+                del queue_tasks[id - 1]
+                self.houses[id - 1].left_calls = [False] * self.houses[id - 1].floors_amount
+                self.houses[id - 1].right_calls = [False] * self.houses[id - 1].floors_amount
+                self.elevator_views[id - 1].update_checkboxes()
+            for id in self.run_again[::-1]:
+                lift_tasks.insert(id - 1, asyncio.create_task(self.lift_simulation(elevator_id=id)))
+                queue_tasks.insert(id - 1, asyncio.create_task(self.controller.elevators[id - 1].simulate_queue()))
+                del self.run_again[-1]
             await asyncio.sleep(1.0, self.loop)
 
-        for task in tasks:
+        for task in lift_tasks:
+            task.cancel()
+        for task in queue_tasks:
             task.cancel()
 
     # это отдельная таска, свой цикл без общего loop
@@ -62,7 +80,7 @@ class MainWindow(QMainWindow):
         house = self.houses[elevator_id - 1]
         while True:
             a = randint(1, 100)
-            if a <= 20:  # 13% на появление вызова
+            if a <= 13:  # 13% на появление вызова
                 floor = randint(1, house.floors_amount) - 1
                 # для простоты сделаем так, чтобы человек вызывал лифт на этаже только с одной стороны
                 if not(house.left_calls[floor] or house.right_calls[floor]):
@@ -155,7 +173,7 @@ class Elevator:
                 # Сначала добираемся до этажа, а потом вниз спускаемся
                 # Для простоты по пути не останавливаясь
                 self.target_floor = self.floors_queue.get()
-                status = 1
+                status = self.notify_observer_sc(False)
                 passengers = 0
                 if not(self.target_floor == self.current_floor):
                     self.notify_observer_ck(self.current_floor)
@@ -220,7 +238,7 @@ class Elevator:
         self.door_status_callback = callback
 
     def notify_observer_sc(self, status):
-        self.scroll_callback(status)
+        return self.scroll_callback(status)
 
     def notify_observer_ck(self, floor):
         self.checkers_callback(floor)
@@ -244,7 +262,7 @@ class ElevatorController:
 
 
 class ElevatorView(QWidget):
-    def __init__(self, houses, controller, elevator_id, floors):
+    def __init__(self, houses, controller, elevator_id, floors, stopped, run_again):
         super().__init__()
         if floors == 3:
             self.ui = Ui_Form_3floors()
@@ -259,9 +277,12 @@ class ElevatorView(QWidget):
         self.setWindowIcon(icon)
         self.setWindowTitle(f"Лифт №{elevator_id}")
 
+        self.status = 1
         self.houses = houses
         self.controller = controller
         self.elevator_id = elevator_id
+        self.stopped = stopped
+        self.run_again = run_again
 
         self.initialize_ui()
 
@@ -305,8 +326,10 @@ class ElevatorView(QWidget):
         self.controller.change_elevator_status(self.elevator_id)
         if self.controller.elevators[self.elevator_id - 1].lift_status:
             self.ui.lift_status_label.setText("Лифт в рабочем состоянии")
+            self.run_again.append(self.elevator_id)
         else:
             self.ui.lift_status_label.setText("Лифт остановлен")
+            self.stopped.append(self.elevator_id)
 
     def change_door_status(self):
         self.controller.change_door_status(self.elevator_id)
@@ -315,8 +338,12 @@ class ElevatorView(QWidget):
         else:
             self.ui.lift_door_status_label.setText("Двери закрыты")
 
-    def update_elevator_scrollbar(self, status):
-        self.ui.lift_floor_slider_2.setValue(int(status))
+    def update_elevator_scrollbar(self, status=False):
+        if status:
+            self.status = int(status)
+            self.ui.lift_floor_slider_2.setValue(int(status))
+        else:
+            return self.status
 
     def update_elevator_status(self, floor):
         self.houses[self.elevator_id - 1].left_calls[floor - 1] = False
@@ -334,6 +361,9 @@ def main():
     loop = QEventLoop(app)
     asyncio.set_event_loop(loop)
 
+    stopped = []
+    run_again = []
+
     # Создадим классы лифтов, контроллеров и интерфейсов, а также самих домов
     num_elevators = 4 * 4 * 4
     elevators = []
@@ -348,10 +378,11 @@ def main():
         elevators.append(Elevator(street_id, house_id, id, capacity, floors_amount))
         houses.append(House(street_id, house_id, floors_amount, live))
     controller = ElevatorController(elevators)
-    elevator_views = [ElevatorView(houses, controller, elevator.elevator_id, floors=3) for elevator in elevators]
+    elevator_views = [ElevatorView(houses, controller, elevator.elevator_id,
+                                   floors=3, stopped=stopped, run_again=run_again) for elevator in elevators]
 
     # Отобразим главное окно после создания лифтов
-    window = MainWindow(loop, elevators, controller, elevator_views, houses)
+    window = MainWindow(loop, elevators, controller, elevator_views, houses, stopped, run_again)
     window.show()
 
     with loop:
